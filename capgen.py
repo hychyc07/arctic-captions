@@ -31,14 +31,12 @@ from homogeneous_data import HomogeneousData
 from optimizers import adadelta, adam, rmsprop, sgd
 
 # dataset iterators
-import flickr8k
 import flickr30k
 import coco
 
 
 # datasets: 'name', 'load_data: returns iterator', 'prepare_data: some preprocessing'
-datasets = {'flickr8k': (flickr8k.load_data, flickr8k.prepare_data),
-            'flickr30k': (flickr30k.load_data, flickr30k.prepare_data),
+datasets = { 'flickr30k': (flickr30k.load_data, flickr30k.prepare_data),
             'coco': (coco.load_data, coco.prepare_data)}
 
 
@@ -1213,14 +1211,22 @@ def train(dim_word=100,  # word vector dimensionality
     f_grad_shared, f_update = eval(optimizer)(lr, tparams, grads, inps, cost, hard_attn_updates)
 
     print 'Optimization'
+    if len(train[0]) < batch_size:
+        batch_size = 3
+    if len(valid[0]) < valid_batch_size or len(test[0]) < valid_batch_size :
+        valid_batch_size = 3
 
     # [See note in section 4.3 of paper]
     train_iter = HomogeneousData(train, batch_size=batch_size, maxlen=maxlen)
+    print "train size", len(train[0])
 
     if valid:
+        print "valid size ", len(valid[0])
         kf_valid = KFold(len(valid[0]), n_folds=len(valid[0])/valid_batch_size, shuffle=False)
     if test:
+        print "test size ", len(test[0])
         kf_test = KFold(len(test[0]), n_folds=len(test[0])/valid_batch_size, shuffle=False)
+
 
     # history_errs is a bare-bones training log that holds the validation and test error
     history_errs = []

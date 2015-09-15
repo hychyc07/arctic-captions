@@ -62,11 +62,11 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
     # load model model_options
     if pkl_name is None:
         pkl_name = model
-    with open('%s.pkl'% pkl_name, 'rb') as f:
-        options = pkl.load(f)
+   # with open('%s.pkl'% pkl_name, 'rb') as f:
+   #     options = pkl.load(f)
 
     # fetch data, skip ones we aren't using to save time
-    load_data, prepare_data = get_dataset(options['dataset'])
+    load_data, prepare_data = get_dataset(pkl_name)#options['dataset'])
     _, valid, test, worddict = load_data(load_train=False, load_dev=True if 'dev' in datasets else False,
                                              load_test=True if 'test' in datasets else False)
 
@@ -144,12 +144,12 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-k', type=int, default=5)
-    parser.add_argument('-sampling', action="store_true", default=False) # this only matters for hard attention
-    parser.add_argument('-p', type=int, default=5, help="number of processes to use")
-    parser.add_argument('-n', action="store_true", default=False)
-    parser.add_argument('-z', action="store_true", default=False)
-    parser.add_argument('-d', type=str, default='dev,test')
+    parser.add_argument('-k', type=int, default=5, required=False)
+    parser.add_argument('-sampling', action="store_true", default=False,required=False) # this only matters for hard attention
+    parser.add_argument('-p', type=int, default=5, help="number of processes to use", required=False)
+    parser.add_argument('-n', action="store_true", default=False, required=False)
+    parser.add_argument('-z', action="store_true", default=False, required=False)
+    parser.add_argument('-d', type=str, default='dev,test', required=False)
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
     parser.add_argument('model', type=str)
     parser.add_argument('saveto', type=str)

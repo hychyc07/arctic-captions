@@ -62,29 +62,28 @@ def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
     #############
     # LOAD DATA #
     #############
-    print '... loading data'
-
+    flicker_dataname = 'flicker_30k_align'
     if load_train:
-        with open(path+'flicker_30k_align.train.pkl', 'rb') as f:
-            train_cap = pkl.load(f)
-            train_feat = pkl.load(f)
-        train = (train_cap, train_feat)
+        with open(path+ flicker_dataname +'.train.pkl', 'rb') as f:
+            train = pkl.load(f)
     else:
         train = None
+    print '... loading training data', len(train[0])
+
     if load_test:
-        with open(path+'flicker_30k_align.test.pkl', 'rb') as f:
-            test_cap = pkl.load(f)
-            test_feat = pkl.load(f)
-        test = (test_cap, test_feat)
+        with open(path+ flicker_dataname +'.test.pkl', 'rb') as f:
+            test = pkl.load(f)
     else:
         test = None
+    print '... loading testing data', len(test[0])
+
     if load_dev:
-        with open(path+'flicker_30k_align.dev.pkl', 'rb') as f:
-            dev_cap = pkl.load(f)
-            dev_feat = pkl.load(f)
-        valid = (dev_cap, dev_feat)
+        with open(path+ flicker_dataname +'.val.pkl', 'rb') as f:
+            valid = pkl.load(f)
     else:
         valid = None
+    print '... loading validation data', len(valid[0])
+
 
     with open(path+'dictionary.pkl', 'rb') as f:
         worddict = pkl.load(f)

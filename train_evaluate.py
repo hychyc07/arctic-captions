@@ -42,7 +42,7 @@ def main(params):
                            dispFreq=1,
                            saveFreq=1000,
                            sampleFreq=250,
-                           dataset="coco",
+                           dataset="flickr30k",
                            use_dropout=params["use-dropout"],
                            use_dropout_lstm=params["use-dropout-lstm"],
                            save_per_epoch=params["save-per-epoch"])
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # These defaults should more or less reproduce the soft
     # alignment model for the MS COCO dataset
     defaults = {"model": "my_caption_model.npz",
-                "attn-type": "deterministic",
+                "attn-type": "stochastic",
                 "dim-word": 512,
                 "ctx-dim": 512,
                 "dim": 1800,
