@@ -11,7 +11,7 @@ def prepare_data(caps, features, worddict, maxlen=None, n_words=10000, zero_pad=
     seqs = []
     feat_list = []
     for cc in caps:
-        seqs.append([worddict[w] if worddict[w] < n_words else 1 for w in cc[0].split()])
+        seqs.append([worddict[w] if w in worddict and worddict[w] < n_words else 1 for w in cc[0].split()])
         feat_list.append(features[cc[1]])
 
     lengths = [len(s) for s in seqs]
@@ -62,7 +62,7 @@ def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
     #############
     # LOAD DATA #
     #############
-    flicker_dataname = 'flickr_30k_align'
+    flicker_dataname = 'flickr_8k_align'
     if load_train:
         with open(path+ flicker_dataname +'.train.pkl', 'rb') as f:
             train = pkl.load(f)
@@ -85,7 +85,7 @@ def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
     print '... loading validation data', len(valid[0])
 
 
-    with open(path + 'dictionary.pkl', 'rb') as f:
+    with open(path+'dictionary.pkl', 'rb') as f:
         worddict = pkl.load(f)
 
     return train, valid, test, worddict

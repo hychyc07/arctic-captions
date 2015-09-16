@@ -31,12 +31,13 @@ from homogeneous_data import HomogeneousData
 from optimizers import adadelta, adam, rmsprop, sgd
 
 # dataset iterators
-import flickr30k
+import flickr30k, flickr8k
 import coco
 
 
 # datasets: 'name', 'load_data: returns iterator', 'prepare_data: some preprocessing'
-datasets = { 'flickr30k': (flickr30k.load_data, flickr30k.prepare_data),
+datasets = { 'flickr8k': (flickr8k.load_data, flickr8k.prepare_data),
+            'flickr30k': (flickr30k.load_data, flickr30k.prepare_data),
             'coco': (coco.load_data, coco.prepare_data)}
 
 
@@ -1212,9 +1213,9 @@ def train(dim_word=100,  # word vector dimensionality
 
     print 'Optimization'
     if len(train[0]) < batch_size:
-        batch_size = 3
+        batch_size = 2
     if len(valid[0]) < valid_batch_size or len(test[0]) < valid_batch_size :
-        valid_batch_size = 3
+        valid_batch_size = 2
 
     # [See note in section 4.3 of paper]
     train_iter = HomogeneousData(train, batch_size=batch_size, maxlen=maxlen)
@@ -1222,9 +1223,15 @@ def train(dim_word=100,  # word vector dimensionality
 
     if valid:
         print "valid size ", len(valid[0])
+        if len(valid[0]) == 0:
+            valid = train
+            valid_batch_size = batch_size
         kf_valid = KFold(len(valid[0]), n_folds=len(valid[0])/valid_batch_size, shuffle=False)
     if test:
         print "test size ", len(test[0])
+        if len(test[0]) == 0:
+            test = train
+            valid_batch_size = batch_size
         kf_test = KFold(len(test[0]), n_folds=len(test[0])/valid_batch_size, shuffle=False)
 
 

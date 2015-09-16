@@ -26,24 +26,21 @@ def load_db(db_dir, datasize):
         col = datum.width
         feats_set += [scipy.sparse.csr_matrix(feature.reshape(14*14*512))]
     print "load image features: ", len(feats_set)
-    print "size: ", row, col, np.shape(feats_set[0])
+    if len(feats_set) > 0:
+        print "size: ", row, col, np.shape(feats_set[0])
     return feats_set[0:datasize]
 
-def load_filecap(args):
+def load_filecap(filelists_path, caplists_path):
 
     # get all the file, it matches with the features we get
-    filelists = []
-    for files in open(args.datalists):
-        filename = files[files.rfind('/')+1:-1]
-        filelists += [filename]
-    filelists = filelists[0: len(filelists)/50*50]
+    filelists = [file.replace('\n','') for file in open(filelists_path)]
     print "load files: ", len(filelists), filelists[1:3]
 
     # get all the capture lists
     capture_map = {}
     capture_vocab = {}
     capturelists= []
-    for caplines in open(args.caplists):
+    for caplines in open(caplists_path):
         lineinfo = caplines.split('\t')
         image_name = lineinfo[0].split('#')[0]
         image_cap = lineinfo[1].replace('\n','').lower()
@@ -56,10 +53,10 @@ def load_filecap(args):
             else:
                 capture_vocab[words] += 1
 
-        #if image_name not in capture_map:
-        #    capture_map[image_name] = [image_cap]
-        #else:
-        #    capture_map[image_name] += [image_cap]
+        if image_name not in capture_map:
+            capture_map[image_name] = [image_cap]
+        else:
+            capture_map[image_name] += [image_cap]
 
     sorted_capture_vocab = sorted(capture_vocab.items(), key=operator.itemgetter(1))
     sorted_capture_vocab.reverse()
@@ -69,12 +66,18 @@ def load_filecap(args):
     print " top10 vocab, ",sorted_capture_vocab[0:10]
     print " more than once vocab: ", len([words for words in sorted_capture_vocab if words[1]>1])
 
-    return filelists, capturelists, sorted_capture_vocab
+    return filelists, capturelists, capture_map,  sorted_capture_vocab
 
 def main(args):
+    caffe_base_path = '/home/hychyc07/caffe/'
+    dataset = args.dataset
+    featurelmdb_path = caffe_base_path + 'examples/' + dataset + '/all_features'
+    filelists_path = caffe_base_path + 'examples/'+ dataset + '/' +dataset + '-images.txt'
+    caplists_path = caffe_base_path + 'examples/'+ dataset + '/' +dataset + '-tokens.txt'
+
     ## capture load and vocab build
     print ">> now capture load and vocab build"
-    filelists, capturelists, sorted_vocab = load_filecap(args)
+    filelists, capturelists, capture_map,  sorted_vocab = load_filecap(filelists_path, caplists_path)
 
     print ">> now start dumping vocab"
     dic_dump = {".": 0}  #1 is reserved for unknown
@@ -85,17 +88,42 @@ def main(args):
 
     ## feature load
     print ">> now loading features from convnet: (wait, long time)"
-    feats_set = load_db(args.lmdb, args.datasize)
+    feats_set = load_db(featurelmdb_path, len(filelists))
     file_feature_map = dict(zip(filelists, feats_set))
     #for feature in feats_set:
     #    print feature[np.nonzero(feature)]
 
     print ">> now start dumping capture and feature "
+    splitted_set = ['train', 'test', 'dev']
+    for split_name in splitted_set:
+        split_filepath = caffe_base_path + 'examples/'+ dataset + '/'  +dataset +'.'+ split_name +'Images.txt'
+        dump_filepath = dataset.lower() + '_align.' + split_name + '.pkl'
+
+        split_files = [file.replace('\n','') for file in open(split_filepath, 'r')]
+        feat_dump = {}
+        capturelists_dump = []
+
+        for file in split_files:
+            if file in file_feature_map.keys():
+                feat_dump[file] = file_feature_map[file]
+
+            if file in capture_map.keys() and file in file_feature_map.keys() :
+                for caps in capture_map[file]:
+                    capturelists_dump += [(caps, file)]
+
+        print "finished: ", split_name, ", data & cap & feat: ", len(split_files), len(capturelists_dump), len(feat_dump)
+        cap_feature_dump = [capturelists_dump, feat_dump]
+        if len(feat_dump) > 0:
+            print "feature example, ", feat_dump.items()[0]
+        pkl.dump(cap_feature_dump, open(dump_filepath, "wb"))
+
+    '''
     feat_dump = {}
     capturelists_dump = []
+
     for file in file_feature_map.keys():
         feat_dump[file] = file_feature_map[file] #scipy.sparse.csr_matrix(file_feature_map[file])
-    for caps in capturelists:
+    for caps in capture_map.keys():
         if caps[1] in feat_dump.keys():
             capturelists_dump += [ caps ]
     cap_feature_dump = [capturelists_dump, feat_dump]
@@ -103,23 +131,14 @@ def main(args):
     pkl.dump(cap_feature_dump, open("flicker_30k_align.train.pkl", "wb"))
     pkl.dump(cap_feature_dump, open("flicker_30k_align.test.pkl", "wb"))
     pkl.dump(cap_feature_dump, open("flicker_30k_align.val.pkl", "wb"))
-
+    '''
     print "<< finished"
 
-
 if __name__ == "__main__":
-    base_path = '/home/hychyc07/caffe/'
-    default_feature_path = base_path + 'examples/flickr30k/flickr30k-images_1k_featuresvgg'
-    default_filelists_path = base_path + 'examples/flickr30k/flickr30k-images_1k.txt'
-    default_caplists_path = base_path + 'examples/flickr30k/results_20130124.token'
+    default_dataset = "Flickr_8k"
 
     parser = argparse.ArgumentParser()
-
-    parser.add_argument('--datasize', type=int,default=3, required=False)
-    parser.add_argument('--datalists', type=str, default=default_filelists_path, required=False)
-    parser.add_argument('--caplists', type=str, default=default_caplists_path, required=False)
-    parser.add_argument('--lmdb', type=str, default=default_feature_path, required=False)
-
+    parser.add_argument('--dataset', type=str, default=default_dataset, required=False)
     args = parser.parse_args()
 
     main(args)
