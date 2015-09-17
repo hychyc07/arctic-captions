@@ -70,6 +70,8 @@ def load_filecap(filelists_path, caplists_path):
 
 def main(args):
     caffe_base_path = '/home/hychyc07/caffe/'
+    dump_base_path = '/home/hychyc07/datasets/'
+
     dataset = args.dataset
     featurelmdb_path = caffe_base_path + 'examples/' + dataset + '/all_features'
     filelists_path = caffe_base_path + 'examples/'+ dataset + '/' +dataset + '-images.txt'
@@ -83,7 +85,7 @@ def main(args):
     dic_dump = {".": 0}  #1 is reserved for unknown
     for i in range(0,len(sorted_vocab)):
         dic_dump[sorted_vocab[i][0]] = i+2 #rank+1, reserve 0 and 1
-    pkl.dump(dic_dump, open("dictionary.pkl", "wb"))
+    pkl.dump(dic_dump, open(dump_base_path+ dataset + "/dictionary.pkl", "wb"))
     print "<< finished"
 
     ## feature load
@@ -97,7 +99,7 @@ def main(args):
     splitted_set = ['train', 'test', 'dev']
     for split_name in splitted_set:
         split_filepath = caffe_base_path + 'examples/'+ dataset + '/'  +dataset +'.'+ split_name +'Images.txt'
-        dump_filepath = dataset.lower() + '_align.' + split_name + '.pkl'
+        dump_filepath = dump_base_path +'/'+ dataset + "./" + dataset.lower() + '_align.' + split_name + '.pkl'
 
         split_files = [file.replace('\n','') for file in open(split_filepath, 'r')]
         feat_dump = {}

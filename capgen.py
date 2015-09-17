@@ -1103,11 +1103,11 @@ def train(dim_word=100,  # word vector dimensionality
     # hyperparam dict
     model_options = locals().copy()
     model_options = validate_options(model_options)
-
+    saveto_base_path = "../../datasets/"
     # reload options
-    if reload_ and os.path.exists(saveto):
+    if reload_ and os.path.exists(saveto_base_path + saveto):
         print "Reloading options"
-        with open('%s.pkl'%saveto, 'rb') as f:
+        with open(saveto_base_path+'%s.pkl'%saveto, 'rb') as f:
             model_options = pkl.load(f)
 
     print "Using the following parameters:"
@@ -1128,9 +1128,9 @@ def train(dim_word=100,  # word vector dimensionality
     # then build the Theano graph
     print 'Building model'
     params = init_params(model_options)
-    if reload_ and os.path.exists(saveto):
+    if reload_ and os.path.exists(saveto_base_path + saveto):
         print "Reloading model"
-        params = load_params(saveto, params)
+        params = load_params(saveto_base_path + saveto, params)
 
     # numpy arrays -> theano shared variables
     tparams = init_tparams(params)
@@ -1238,8 +1238,8 @@ def train(dim_word=100,  # word vector dimensionality
     # history_errs is a bare-bones training log that holds the validation and test error
     history_errs = []
     # reload history
-    if reload_ and os.path.exists(saveto):
-        history_errs = numpy.load(saveto)['history_errs'].tolist()
+    if reload_ and os.path.exists(saveto_base_path + saveto):
+        history_errs = numpy.load(saveto_base_path + saveto)['history_errs'].tolist()
     best_p = None
     bad_counter = 0
 
@@ -1299,8 +1299,8 @@ def train(dim_word=100,  # word vector dimensionality
                     params = copy.copy(best_p)
                 else:
                     params = unzip(tparams)
-                numpy.savez(saveto, history_errs=history_errs, **params)
-                pkl.dump(model_options, open('%s.pkl'%saveto, 'wb'))
+                numpy.savez(saveto_base_path + saveto, history_errs=history_errs, **params)
+                pkl.dump(model_options, open(saveto_base_path + '%s.pkl'%saveto, 'wb'))
                 print 'Done'
 
             # Print a generated sample as a sanity check
@@ -1355,7 +1355,7 @@ def train(dim_word=100,  # word vector dimensionality
                     print 'Saving model with best validation ll'
                     params = copy.copy(best_p)
                     params = unzip(tparams)
-                    numpy.savez(saveto+'_bestll', history_errs=history_errs, **params)
+                    numpy.savez(saveto_base_path + saveto+'_bestll', history_errs=history_errs, **params)
                     bad_counter = 0
 
                 # abort training if perplexity has been increasing for too long
@@ -1374,7 +1374,7 @@ def train(dim_word=100,  # word vector dimensionality
             break
 
         if save_per_epoch:
-            numpy.savez(saveto + '_epoch_' + str(eidx + 1), history_errs=history_errs, **unzip(tparams))
+            numpy.savez(saveto_base_path + saveto + '_epoch_' + str(eidx + 1), history_errs=history_errs, **unzip(tparams))
 
     # use the best nll parameters for final checkpoint (if they exist)
     if best_p is not None:
@@ -1392,7 +1392,7 @@ def train(dim_word=100,  # word vector dimensionality
     print 'Train ', train_err, 'Valid ', valid_err, 'Test ', test_err
 
     params = copy.copy(best_p)
-    numpy.savez(saveto, zipped_params=best_p, train_err=train_err,
+    numpy.savez(saveto_base_path + saveto, zipped_params=best_p, train_err=train_err,
                 valid_err=valid_err, test_err=test_err, history_errs=history_errs,
                 **params)
 

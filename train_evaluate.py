@@ -62,15 +62,15 @@ if __name__ == "__main__":
                 "n-layers-out": 1,
                 "n-layers-lstm": 1,
                 "n-layers-init": 2,
-                "n-words": 500, #10000,
-                "max-epochs" : 1000, #5000
+                "n-words": 8000, #10000,
+                "max-epochs" : 10, #5000
                 "valid-freq" : 200,  #2000
                 "lstm-encoder": False,
                 "decay-c": 0.,
                 "alpha-c": 1.,
                 "prev2out": True,
                 "ctx2out": True,
-                "learning-rate": 0.01,
+                "learning-rate": 0.4, #0.01,
                 "optimizer": "adam",
                 "selector": True,
                 "use-dropout": True,
