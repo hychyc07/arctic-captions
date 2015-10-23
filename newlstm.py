@@ -213,14 +213,11 @@ class LSTM_att(object):
             return e_yin / e_yin.sum(axis=1, keepdims=True) * zerosout
             #return T.nnet.softmax(yin - yin.max(axis=1, keepdims=True)) * zerosout
 
-        def decode(y_tm1, sd_tm1, cd_tm1, xh, UVxh):
+        def decode(y_tm1, sd_tm1, cd_tm1, xh, UVxh, I_mb):
             beta_st = T.dot(sd_tm1, self.W_att) + UVxh  # note, dimension mismatch is fine, a*mb +  len * a * mb
             beta_t = T.dot(beta_st, self.v_att)   #1*len*mb      v_att is (a*1)  => len * mb * 1
-            alpha_t = stable_softmax(beta_t.dimshuffle(1,0,2))  # .dimshuffle(1,0,)).dimshuffle(0, 1, 'x')
-            z_t = T.batched_dot(xh.dimshuffle(1, 2, 0), alpha_t).flatten(2)   #dimshuffle(0,1,)
-            # old version, depends on int of size
-            #alpha_t = T.nnet.softmax(beta_t.reshape((mb, lt))).reshape((mb, lt, 1))  # compress to 2d for softmax then elivated to 3d
-            #z_t = T.batched_dot(xh.dimshuffle(1, 2, 0), alpha_t).reshape((mb, xhdim))  # after it is mb * nxh * 1
+            alpha_t = stable_softmax(beta_t.dimshuffle(1,0,2))
+            z_t = T.batched_dot(xh.dimshuffle(1, 2, 0), alpha_t).flatten(2)
             g_t = T.tanh(T.dot(z_t, self.W_dec_z) + T.dot(sd_tm1, self.H_dec_z) + T.dot(I_mb, self.b_dec_z)
                          + T.dot(y_tm1, self.E_dec_z))
             i_t = T.nnet.sigmoid(T.dot(z_t, self.W_dec_i) + T.dot(sd_tm1, self.H_dec_i) + T.dot(I_mb, self.b_dec_i)
@@ -246,7 +243,7 @@ class LSTM_att(object):
         [sd_dec, cd_dec, y_dec], _ = theano.scan(fn=decode,
                                    sequences=y_decinput, # dict(input=y_decinput, taps=[0]),
                                    outputs_info=[dict(initial=sd0, taps=[-1]), dict(initial=cd0, taps=[-1]), None ], #, dict(initial=y0, taps=[-1])],
-                                   non_sequences=[xh, UVxh],
+                                   non_sequences=[xh, UVxh, I_mb],
                                    n_steps=y_decinput.shape[0])
 
         p_y_given_x_sentence = y_dec[:, :, :]      # here size len x ny x mb
@@ -312,14 +309,15 @@ class LSTM_att(object):
         xh, UVxh = self.only_encode(x)
         y_prediction = []
         for i in range(x.shape[1]):
-            predictions = self.beamsearch_decode(xh, UVxh, i, beam_size, max_search_len)
+            predictions = self.beamsearch_decode(xh[:,i:i, :], UVxh[:,i:i, :], beam_size, max_search_len)
             y_prediction += [predictions]
         print y_prediction # this is the beam version for all in the minibatch
 
 
     def beamsearch_decode(self, xh, UVxh, index, beam_size, max_search_len):
+        I_mb = np.ones((1,1))
         h =np.zeros((1, self.nh_dec))
-        c = np.zeros((1))
+        c = np.zeros((1, self.nh_dec))
         Ws = []
         if beam_size > 1:
             # log probability, indices of words predicted in this beam so far, and the hidden and cell states
@@ -333,7 +331,7 @@ class LSTM_att(object):
                         # this beam predicted end token. Keep in the candidates but don't expand it out any more
                         beam_candidates.append(b)
                         continue
-                    h1, c1, y1 = self.only_decode_step(Ws[ixprev], b[2], b[3], xh, UVxh) # y1 is already the softmax value of y
+                    h1, c1, y1 = self.only_decode_step(Ws[ixprev], b[2], b[3], xh, UVxh, I_mb) # y1 is already the softmax value of y
                     # decode(y_tm1, sd_tm1, cd_tm1, xh, UVxh):return [sd_t, cd_t, y_t]
                     #LSTMtick(x, h_prev, c_prev), return (Y, Hout, C) # return output, new hidden, new cell
 
@@ -358,7 +356,7 @@ class LSTM_att(object):
             predlogprob = 0.0
             while True:
                 #(y1, h, c) = LSTMtick(Ws[ixprev], h, c)
-                h, c, y1 = self.only_decode_step(Ws[ixprev], h, c, xh, UVxh)
+                h, c, y1 = self.only_decode_step(Ws[ixprev], h, c, xh, UVxh, I_mb)
                 ixprev = np.amax(y1)
                 ixlogprob = y1[ixprev]
                 predix.append(ixprev)

@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="02f2e370-f058-49fa-9213-a9808bef1807" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/newlstm.py" afterPath="$PROJECT_DIR$/newlstm.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/videomaniac.py" afterPath="$PROJECT_DIR$/videomaniac.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="arctic-captions.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,12 +50,21 @@
       <file leaf-file-name="newlstm.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newlstm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.63981044">
-              <caret line="222" column="114" selection-start-line="222" selection-start-column="114" selection-end-line="222" selection-end-column="114" />
+            <state vertical-scroll-proportion="0.65687203">
+              <caret line="358" column="81" selection-start-line="358" selection-start-column="81" selection-end-line="358" selection-end-column="81" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#16248#18771#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mylstm.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mylstm.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,8 +82,8 @@
       <file leaf-file-name="weatherman.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/old/weatherman.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="191" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+            <state vertical-scroll-proportion="-2.892857">
+              <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -652,13 +659,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mylstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="63" selection-start-line="40" selection-start-column="63" selection-end-line="40" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/neuraltalk/imagernn/Readme.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -708,14 +708,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/old/weatherman.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="191" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/videomaniac.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -744,13 +736,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/old/weatherman.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.892857">
+          <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylstm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/newlstm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63981044">
-          <caret line="222" column="114" selection-start-line="222" selection-start-column="114" selection-end-line="222" selection-end-column="114" />
+        <state vertical-scroll-proportion="0.65687203">
+          <caret line="358" column="81" selection-start-line="358" selection-start-column="81" selection-end-line="358" selection-end-column="81" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#16248#18771#0" expanded="false" />
           </folding>
         </state>
       </provider>
