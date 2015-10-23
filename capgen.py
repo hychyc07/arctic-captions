@@ -1065,7 +1065,7 @@ def validate_options(options):
 def train(dim_word=100,  # word vector dimensionality
           ctx_dim=512,  # context vector dimensionality
           dim=1000,  # the number of LSTM units
-          attn_type='stochastic',  # [see section 4 from paper]
+          attn_type='deterministic',  # [see section 4 from paper]
           n_layers_att=1,  # number of layers used to compute the attention weights
           n_layers_out=1,  # number of layers used to compute logit
           n_layers_lstm=1,  # number of lstm layers
@@ -1104,6 +1104,7 @@ def train(dim_word=100,  # word vector dimensionality
     model_options = locals().copy()
     model_options = validate_options(model_options)
     saveto_base_path = "../../datasets/"
+    saveto = dataset+'_'+saveto
     # reload options
     if reload_ and os.path.exists(saveto_base_path + saveto):
         print "Reloading options"

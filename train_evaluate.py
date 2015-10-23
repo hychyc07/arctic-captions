@@ -43,7 +43,7 @@ def main(params):
                            dispFreq=1,
                            saveFreq=1000,
                            sampleFreq=250,
-                           dataset="flickr8k",
+                           dataset=params["dataset"],
                            use_dropout=params["use-dropout"],
                            use_dropout_lstm=params["use-dropout-lstm"],
                            save_per_epoch=params["save-per-epoch"])
@@ -53,7 +53,8 @@ def main(params):
 if __name__ == "__main__":
     # These defaults should more or less reproduce the soft
     # alignment model for the MS COCO dataset
-    defaults = {"model": "my_caption_model.npz",
+    defaults = {"dataset": "flickr8k",
+                "model": "my_caption_model.npz",
                 "attn-type": "stochastic",
                 "dim-word": 512,
                 "ctx-dim": 512,
@@ -70,7 +71,7 @@ if __name__ == "__main__":
                 "alpha-c": 1.,
                 "prev2out": True,
                 "ctx2out": True,
-                "learning-rate": 0.4, #0.01,
+                "learning-rate": 0.04, #0.01,
                 "optimizer": "adam",
                 "selector": True,
                 "use-dropout": True,

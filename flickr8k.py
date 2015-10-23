@@ -13,7 +13,6 @@ def prepare_data(caps, features, worddict, maxlen=None, n_words=10000, zero_pad=
     for cc in caps:
         seqs.append([worddict[w] if w in worddict and worddict[w] < n_words else 1 for w in cc[0].split()])
         feat_list.append(features[cc[1]])
-
     lengths = [len(s) for s in seqs]
 
     if maxlen != None:
@@ -44,15 +43,15 @@ def prepare_data(caps, features, worddict, maxlen=None, n_words=10000, zero_pad=
     n_samples = len(seqs)
     maxlen = numpy.max(lengths)+1
 
-    x = numpy.zeros((maxlen, n_samples)).astype('int64')
-    x_mask = numpy.zeros((maxlen, n_samples)).astype('float32')
+    capture = numpy.zeros((n_samples, maxlen)).astype('int64')
+    capture_mask = numpy.zeros((n_samples, maxlen)).astype('float32')
     for idx, s in enumerate(seqs):
-        x[:lengths[idx],idx] = s
-        x_mask[:lengths[idx]+1,idx] = 1.
+        capture[idx, :lengths[idx]] = s
+        capture_mask[idx, :lengths[idx]+1] = 1.
 
-    return x, x_mask, y
+    return capture, capture_mask, y
 
-def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
+def load_data(load_train=True, load_dev=True, load_test=True, path='../../datasets/Flickr_8k/'):
     ''' Loads the dataset
 
     :type dataset: string

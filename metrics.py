@@ -29,11 +29,15 @@ def load_textfiles(references, hypothesis):
     refs = {idx: rr for idx, rr in enumerate(raw_refs)}
     # sanity check that we have the same number of references as hypothesis
     if len(hypo) != len(refs):
+        print len(hypo)
+        print len(refs)
         raise ValueError("There is a sentence number mismatch between the inputs")
     return refs, hypo
 
 
 def score(ref, hypo):
+    print len(ref)
+    print len(hypo)
     """
     ref, dictionary of reference sentences (id, sentence)
     hypo, dictionary of hypothesis sentences (id, sentence)

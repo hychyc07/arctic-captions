@@ -55,8 +55,8 @@ def load_filecap(filelists_path, caplists_path):
 
         if image_name not in capture_map:
             capture_map[image_name] = [image_cap]
-        else:
-            capture_map[image_name] += [image_cap]
+      #  else:
+      #      capture_map[image_name] += [image_cap]
 
     sorted_capture_vocab = sorted(capture_vocab.items(), key=operator.itemgetter(1))
     sorted_capture_vocab.reverse()
@@ -99,7 +99,7 @@ def main(args):
     splitted_set = ['train', 'test', 'dev']
     for split_name in splitted_set:
         split_filepath = caffe_base_path + 'examples/'+ dataset + '/'  +dataset +'.'+ split_name +'Images.txt'
-        dump_filepath = dump_base_path +'/'+ dataset + "./" + dataset.lower() + '_align.' + split_name + '.pkl'
+        dump_filepath = dump_base_path +'/'+ dataset + "/" + dataset.lower() + '_align.' + split_name + '.pkl'
 
         split_files = [file.replace('\n','') for file in open(split_filepath, 'r')]
         feat_dump = {}
