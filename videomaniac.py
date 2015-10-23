@@ -55,9 +55,8 @@ def prepare_data(caps, features, worddict, maxlen=64, n_words=10000, zero_pad=Fa
     print "data cap ", capture.shape, capture[0, :]
     return capture, capture_mask, feat_array
 
-maxcap_persent = 4
-
-def load_data(load_train=True, load_dev=True, load_test=True, path='../../caffe/examples/YouTubeClips/'):
+maxcap_persent = 1
+def load_data(load_train=True, load_dev=True, load_test=True, path='../../MANIAC/'):
     ''' Loads the dataset
 
     :type dataset: string

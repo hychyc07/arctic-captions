@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02f2e370-f058-49fa-9213-a9808bef1807" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alpha_visualization.ipynb" afterPath="$PROJECT_DIR$/alpha_visualization.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capgen.py" afterPath="$PROJECT_DIR$/capgen.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/flickr8k.py" afterPath="$PROJECT_DIR$/flickr8k.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/load_image_feat.py" afterPath="$PROJECT_DIR$/load_image_feat.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/metrics.py" afterPath="$PROJECT_DIR$/metrics.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/optimizers.py" afterPath="$PROJECT_DIR$/optimizers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train_evaluate.py" afterPath="$PROJECT_DIR$/train_evaluate.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/newlstm.py" afterPath="$PROJECT_DIR$/newlstm.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/videomaniac.py" afterPath="$PROJECT_DIR$/videomaniac.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="arctic-captions.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +28,8 @@
       <file leaf-file-name="train_test_dl.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_test_dl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="267" column="53" selection-start-line="267" selection-start-column="53" selection-end-line="267" selection-end-column="53" />
+            <state vertical-scroll-proportion="-116.03571">
+              <caret line="285" column="40" selection-start-line="285" selection-start-column="40" selection-end-line="285" selection-end-column="40" />
               <folding>
                 <element signature="e#58#69#0" expanded="true" />
               </folding>
@@ -44,8 +40,8 @@
       <file leaf-file-name="videodata.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/videodata.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.928572">
-              <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="165" column="9" selection-start-line="165" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -56,10 +52,11 @@
       <file leaf-file-name="newlstm.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newlstm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29254302">
-              <caret line="209" column="50" selection-start-line="209" selection-start-column="50" selection-end-line="209" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.63981044">
+              <caret line="222" column="114" selection-start-line="222" selection-start-column="114" selection-end-line="222" selection-end-column="114" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#16248#18771#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -69,7 +66,7 @@
         <entry file="file://$PROJECT_DIR$/videomaniac.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="51" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
+              <caret line="164" column="16" selection-start-line="164" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -78,40 +75,8 @@
       <file leaf-file-name="weatherman.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/old/weatherman.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.571428">
-              <caret line="227" column="24" selection-start-line="227" selection-start-column="17" selection-end-line="227" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="capgen.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/capgen.py">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1325" column="39" selection-start-line="1325" selection-start-column="0" selection-end-line="1326" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="load_image_feat.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/load_image_feat.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="119" column="55" selection-start-line="119" selection-start-column="55" selection-end-line="119" selection-end-column="55" />
-              <folding>
-                <element signature="e#22#51#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="preprocessVC.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/preprocessVC.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="33" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="33" />
+              <caret line="191" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -141,6 +106,8 @@
         <option value="$PROJECT_DIR$/videodata.py" />
         <option value="$PROJECT_DIR$/old/ggmodelmom.py" />
         <option value="$PROJECT_DIR$/train_test_dl.py" />
+        <option value="$PROJECT_DIR$/old/weatherman.py" />
+        <option value="$PROJECT_DIR$/videomaniac.py" />
         <option value="$PROJECT_DIR$/newlstm.py" />
       </list>
     </option>
@@ -149,10 +116,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1849" />
-    <option name="y" value="66" />
-    <option name="width" value="1598" />
-    <option name="height" value="1196" />
+    <option name="x" value="1679" />
+    <option name="width" value="1602" />
+    <option name="height" value="1204" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -180,7 +146,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -215,11 +181,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/neuraltalk/imagernn/Readme.md" />
+    <property name="last_opened_file_path" value="$USER_HOME$/catkin_ws/src/baxter_learn" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -371,14 +337,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1849" y="66" width="1598" height="1196" extended-state="0" />
+    <frame x="1679" y="0" width="1602" height="1204" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24217772" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.265625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -420,6 +386,20 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/load_image_feat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="119" column="55" selection-start-line="119" selection-start-column="55" selection-end-line="119" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessVC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="33" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/capgen.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -662,7 +642,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="45" column="19" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -670,7 +649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -678,9 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="40" column="63" selection-start-line="40" selection-start-column="63" selection-end-line="40" selection-end-column="63" />
-          <folding>
-            <element signature="e#0#35#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -688,7 +663,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -696,7 +670,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="70" column="30" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -704,48 +677,41 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6496756">
           <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/preprocessVC.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="33" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/capgen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1325" column="39" selection-start-line="1325" selection-start-column="0" selection-end-line="1326" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/old/ggmodelmom.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34919125">
-          <caret line="431" column="26" selection-start-line="431" selection-start-column="22" selection-end-line="431" selection-end-column="26" />
-          <folding />
+        <state vertical-scroll-proportion="0.44949028">
+          <caret line="436" column="29" selection-start-line="436" selection-start-column="29" selection-end-line="436" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessVC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8267223">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/load_image_feat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="119" column="55" selection-start-line="119" selection-start-column="55" selection-end-line="119" selection-end-column="55" />
-          <folding>
-            <element signature="e#22#51#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.75365347">
+          <caret line="121" column="7" selection-start-line="121" selection-start-column="7" selection-end-line="121" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/capgen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3382046">
+          <caret line="1334" column="33" selection-start-line="1334" selection-start-column="33" selection-end-line="1334" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/old/weatherman.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.571428">
-          <caret line="227" column="24" selection-start-line="227" selection-start-column="17" selection-end-line="227" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="191" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -753,37 +719,38 @@
     <entry file="file://$PROJECT_DIR$/videomaniac.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="51" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
+          <caret line="164" column="16" selection-start-line="164" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/videodata.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.928572">
-          <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/train_test_dl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="267" column="53" selection-start-line="267" selection-start-column="53" selection-end-line="267" selection-end-column="53" />
+        <state vertical-scroll-proportion="-116.03571">
+          <caret line="285" column="40" selection-start-line="285" selection-start-column="40" selection-end-line="285" selection-end-column="40" />
           <folding>
             <element signature="e#58#69#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/videodata.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="165" column="9" selection-start-line="165" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/newlstm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29254302">
-          <caret line="209" column="50" selection-start-line="209" selection-start-column="50" selection-end-line="209" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.63981044">
+          <caret line="222" column="114" selection-start-line="222" selection-start-column="114" selection-end-line="222" selection-end-column="114" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#16248#18771#0" expanded="false" />
           </folding>
         </state>
       </provider>

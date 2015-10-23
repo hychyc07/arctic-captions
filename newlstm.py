@@ -34,6 +34,14 @@ class LSTM_att(object):
         lt :: length of input, after padding .. for attention
         bidir:: bidirection or not ... 2 is bidirection, 1 is single ...
         '''
+        self.nh_enc = nh_enc
+        self.nh_dec = nh_dec
+        self.nh_att = nh_att
+        self.nx = nx
+        self.ny = ny
+        self.lt = lt
+        self.bidir = bidir
+
         # parameters of the model
         xhdim = nx+nh_enc*bidir
         # encoder forward
@@ -116,7 +124,7 @@ class LSTM_att(object):
         y0 = theano.shared(name='y0', value=a)
 
 
-        # all one vector for batch size ... 
+        # all one vector for batch size ... , deprecated, should be matching automatically
         I_mb = theano.shared(name='I', value=np.ones((mb, 1), dtype=config.floatX))
 
         WHb_f_enc = [self.Wf_enc_z, self.Hf_enc_z, self.bf_enc_z,
@@ -153,7 +161,7 @@ class LSTM_att(object):
         x_in = T.tensor3()     # input, since batched, dim rise to 3 : len * mb * nx
         x = x_in.astype(config.floatX)
 
-        y_in = T.tensor3()   # ground truth labels
+        y_in = T.tensor3()   # ground truth labels ,  len * mb * ny
         y_target = y_in.astype(config.floatX)
 
         y_decinput = T.concatenate([y0, y_target], axis=0)[:-1, :,:].astype(config.floatX)   # decode input labels, shifted to right by one and start with eos
@@ -164,13 +172,10 @@ class LSTM_att(object):
         def encode(x_t, h_tm1, c_tm1, W_enc_z, H_enc_z, b_enc_z, W_enc_i, H_enc_i, b_enc_i,
                                         W_enc_f, H_enc_f, b_enc_f, W_enc_o, H_enc_o, b_enc_o):
             g_t = T.tanh(T.dot(x_t, W_enc_z) + T.dot(h_tm1, H_enc_z) + T.dot(I_mb, b_enc_z))
-            i_t = T.nnet.sigmoid(T.dot(x_t, W_enc_i) + T.dot(h_tm1, H_enc_i) + T.dot(I_mb, b_enc_i)
-                                 ) # + T.dot(I_mb, ph_i.T) * c_tm1)
-            f_t = T.nnet.sigmoid(T.dot(x_t, W_enc_f) + T.dot(h_tm1, H_enc_f) + T.dot(I_mb, b_enc_f)
-                                 ) #+ T.dot(I_mb, ph_f.T) * c_tm1
+            i_t = T.nnet.sigmoid(T.dot(x_t, W_enc_i) + T.dot(h_tm1, H_enc_i) + T.dot(I_mb, b_enc_i) ) # + T.dot(I_mb, ph_i.T) * c_tm1)
+            f_t = T.nnet.sigmoid(T.dot(x_t, W_enc_f) + T.dot(h_tm1, H_enc_f) + T.dot(I_mb, b_enc_f) ) # + T.dot(I_mb, ph_f.T) * c_tm1
             c_t = g_t * i_t + c_tm1 * f_t
-            o_t = T.nnet.sigmoid(T.dot(x_t, W_enc_o) + T.dot(h_tm1, H_enc_o) + T.dot(I_mb, b_enc_o)
-                                 ) # + T.dot(I_mb, ph_o.T) * c_t
+            o_t = T.nnet.sigmoid(T.dot(x_t, W_enc_o) + T.dot(h_tm1, H_enc_o) + T.dot(I_mb, b_enc_o) ) # + T.dot(I_mb, ph_o.T) * c_t
             h_t = T.tanh(c_t) * o_t
             return [h_t, c_t]
 
@@ -200,19 +205,22 @@ class LSTM_att(object):
             restriction_matrix = theano.shared(name="restriction", value=restriction).astype(config.floatX)
 
         def stable_softmax(yin):
-            return T.nnet.softmax(yin - yin.max(axis=1, keepdims=True))
+            e_yin = np.exp(yin - yin.max(axis=1, keepdims=True))
+            return e_yin / e_yin.sum(axis=1, keepdims=True)
 
         def stable_softmax_nonzero(yin, zerosout):
-            #e_yin = np.exp(yin - yin.max(axis=1, keepdims=True)) #
-            #return e_yin / e_yin.sum(axis=1, keepdims=True) * zerosout
-            return T.nnet.softmax(yin - yin.max(axis=1, keepdims=True)) * zerosout
-            
+            e_yin = np.exp(yin - yin.max(axis=1, keepdims=True)) #
+            return e_yin / e_yin.sum(axis=1, keepdims=True) * zerosout
+            #return T.nnet.softmax(yin - yin.max(axis=1, keepdims=True)) * zerosout
+
         def decode(y_tm1, sd_tm1, cd_tm1, xh, UVxh):
             beta_st = T.dot(sd_tm1, self.W_att) + UVxh  # note, dimension mismatch is fine, a*mb +  len * a * mb
-            beta_t = T.dot(beta_st, self.v_att)   #1*len*mb
-            alpha_t = T.nnet.softmax(beta_t.reshape((mb, lt))).reshape((mb, lt, 1))  # compress to 2d for softmax then elivated to 3d
-            z_t = T.batched_dot(xh.dimshuffle(1, 2, 0), alpha_t).reshape((mb, xhdim))  # after it is mb * nxh * 1
-
+            beta_t = T.dot(beta_st, self.v_att)   #1*len*mb      v_att is (a*1)  => len * mb * 1
+            alpha_t = stable_softmax(beta_t.dimshuffle(1,0,2))  # .dimshuffle(1,0,)).dimshuffle(0, 1, 'x')
+            z_t = T.batched_dot(xh.dimshuffle(1, 2, 0), alpha_t).flatten(2)   #dimshuffle(0,1,)
+            # old version, depends on int of size
+            #alpha_t = T.nnet.softmax(beta_t.reshape((mb, lt))).reshape((mb, lt, 1))  # compress to 2d for softmax then elivated to 3d
+            #z_t = T.batched_dot(xh.dimshuffle(1, 2, 0), alpha_t).reshape((mb, xhdim))  # after it is mb * nxh * 1
             g_t = T.tanh(T.dot(z_t, self.W_dec_z) + T.dot(sd_tm1, self.H_dec_z) + T.dot(I_mb, self.b_dec_z)
                          + T.dot(y_tm1, self.E_dec_z))
             i_t = T.nnet.sigmoid(T.dot(z_t, self.W_dec_i) + T.dot(sd_tm1, self.H_dec_i) + T.dot(I_mb, self.b_dec_i)
@@ -258,38 +266,8 @@ class LSTM_att(object):
                                               outputs=sentence_cost,
                                               updates=sentence_updates)
 
-
-        def decode_one(y_tm1, sd_tm1, cd_tm1, xh, UVxh, batch_index):
-            mb = 1
-            beta_st = T.dot(sd_tm1, self.W_att) + UVxh[:,batch_index, :]  # note, dimension mismatch is fine, a*mb +  len * a * mb
-            beta_t = T.dot(beta_st, self.v_att)   #1*len*mb
-            alpha_t = T.nnet.softmax(beta_t.reshape((1, lt))).reshape((lt, 1))  # compress to 2d for softmax then elivated to 3d
-            z_t = T.batched_dot(xh[:,batch_index,:].dimshuffle(1, 0), alpha_t).reshape((1, xhdim))  # after it is mb * nxh * 1
-
-            g_t = T.tanh(T.dot(z_t, self.W_dec_z) + T.dot(sd_tm1, self.H_dec_z) + self.b_dec_z
-                         + T.dot(y_tm1, self.E_dec_z))
-            i_t = T.nnet.sigmoid(T.dot(z_t, self.W_dec_i) + T.dot(sd_tm1, self.H_dec_i) + self.b_dec_i
-                         + T.dot(y_tm1, self.E_dec_i))    # + T.dot(I_mb, ph_i.T) * c_tm1)
-            f_t = T.nnet.sigmoid(T.dot(z_t, self.W_dec_f) + T.dot(sd_tm1, self.H_dec_f) + self.b_dec_f
-                         + T.dot(y_tm1, self.E_dec_f))   #+ T.dot(I_mb, ph_f.T) * c_tm1
-            cd_t = g_t * i_t + cd_tm1 * f_t
-            o_t = T.nnet.sigmoid(T.dot(z_t, self.W_dec_o) + T.dot(sd_tm1, self.H_dec_o) + self.b_dec_o
-                         + T.dot(y_tm1, self.E_dec_o))   # + T.dot(I_mb, ph_o.T) * c_t
-            sd_t = T.tanh(cd_t) * o_t
-
-            #sd_t = dropout(sd_t, use_noise, trng)
-            if restriction is None:
-                y_t = stable_softmax( ( T.dot(z_t, self.W_y) + T.dot(sd_t, self.H_y)
-                    + T.dot(y_tm1, self.E_y) + self.b_y) )
-            else:
-                restriction_perbatch = restriction_matrix[T.argmax(y_tm1, axis=1)]
-                y_t = stable_softmax_nonzero( (T.dot(z_t, self.W_y) + T.dot(sd_t, self.H_y)
-                    + T.dot(y_tm1, self.E_y) + self.b_y) , restriction_perbatch)
-            return [sd_t, cd_t, y_t]
-
-
-        self.only_encode = theano.function(inputs=x_in, outputs=[xh, UVxh])
-        self.only_decode_step = decode_one
+        self.only_encode = theano.function(inputs=[x_in], outputs=[xh, UVxh])
+        self.only_decode_step = decode
 
         # by default it is sgd
         self.optm = optimizers.sgd
@@ -340,6 +318,8 @@ class LSTM_att(object):
 
 
     def beamsearch_decode(self, xh, UVxh, index, beam_size, max_search_len):
+        h =np.zeros((1, self.nh_dec))
+        c = np.zeros((1))
         Ws = []
         if beam_size > 1:
             # log probability, indices of words predicted in this beam so far, and the hidden and cell states
@@ -378,8 +358,9 @@ class LSTM_att(object):
             predlogprob = 0.0
             while True:
                 #(y1, h, c) = LSTMtick(Ws[ixprev], h, c)
-                h, c, y1 = self.only_decode_step(Ws[ixprev], b[2], b[3], xh, UVxh) 
-                ixprev, ixlogprob = ymax(y1)
+                h, c, y1 = self.only_decode_step(Ws[ixprev], h, c, xh, UVxh)
+                ixprev = np.amax(y1)
+                ixlogprob = y1[ixprev]
                 predix.append(ixprev)
                 predlogprob += ixlogprob
                 nsteps += 1
@@ -389,3 +370,30 @@ class LSTM_att(object):
 
         return predictions
 
+
+def sanitycheck():
+    inputsize =4096
+    outputsize= 8000
+    minibatch = 8
+
+    maxlen_input = 40
+    bidirection = False
+    restriction_matrix = None
+
+    learning_rate = 0.2
+
+    rnn = LSTM_att(nh_enc=100, nh_dec=100, nh_att=50,
+                    nx=inputsize, ny=outputsize, mb=minibatch,
+                    lt=maxlen_input, bidir=bidirection+1, nonlstm_encode=False,
+                    restriction = restriction_matrix)
+
+    batchinput_x = np.random.random((maxlen_input, minibatch, inputsize)).astype(dtype=np.float32)
+    batchinput_y = np.ones((20, minibatch, outputsize)).astype(dtype=np.float32)
+
+    loss = rnn.train(batchinput_x, batchinput_y, learning_rate )
+    print loss
+
+
+if __name__ == '__main__':
+    sanitycheck()  # dimension check
+    print "finished"
